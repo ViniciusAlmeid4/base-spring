@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/alunos")
@@ -22,12 +23,22 @@ public class AlunoController {
 
     @GetMapping
     public List<AlunoModel> listarTodos() {
-        return  alunoService.listarTodos();
+        return alunoService.listarTodos();
+    }
+
+    @GetMapping(path = "/{id}")
+    public Optional<AlunoModel> listarAluno(@PathVariable Long id) {
+        return alunoService.listarAluno(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>  deletarAluno(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarAluno(@PathVariable Long id) {
         alunoService.deletarAluno(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "/{id}")
+    public AlunoModel updateAluno(@PathVariable Long id, @RequestBody AlunoModel alunoModel) {
+        return alunoService.editarAluno(id, alunoModel);
     }
 }
